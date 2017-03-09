@@ -51,6 +51,6 @@ public class KotlinCommonCompilerArgumentsHolder extends BaseKotlinCompilerSetti
     @NotNull
     @Override
     protected CommonCompilerArguments createSettings() {
-        return new CommonCompilerArguments.DummyImpl();
+        return CommonCompilerArguments.createDefaultInstance();
     }
 }

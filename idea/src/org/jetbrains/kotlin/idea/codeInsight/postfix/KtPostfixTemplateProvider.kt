@@ -32,6 +32,7 @@ import org.jetbrains.kotlin.idea.refactoring.introduce.introduceVariable.KotlinI
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 import org.jetbrains.kotlin.psi.psiUtil.getQualifiedExpressionForReceiverOrThis
+import org.jetbrains.kotlin.psi.psiUtil.parents
 import org.jetbrains.kotlin.psi.psiUtil.parentsWithSelf
 import org.jetbrains.kotlin.resolve.BindingContext
 import org.jetbrains.kotlin.resolve.bindingContextUtil.isUsedAsStatement
@@ -146,6 +147,12 @@ private class KtExpressionPostfixTemplateSelector(
 
         if (statementsOnly) {
             val elementToCheck = element.getQualifiedExpressionForReceiverOrThis()
+            // statements can only be contained within some block
+            if (elementToCheck.parents.none { it is KtBlockExpression }) return false
+
+            // if element's parent is not a block it still can be a statement, for example
+            // for (i in 1..9)
+            //      <selection>foo(i)<selection/>
             if (elementToCheck.parent !is KtBlockExpression && !elementToCheck.isUsedAsStatement(bindingContext)) return false
         }
         if (checkCanBeUsedAsValue && !element.canBeUsedAsValue()) return false

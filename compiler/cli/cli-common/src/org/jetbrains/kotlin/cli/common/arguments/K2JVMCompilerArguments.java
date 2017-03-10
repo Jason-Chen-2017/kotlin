@@ -16,8 +16,8 @@
 
 package org.jetbrains.kotlin.cli.common.arguments;
 
-import com.sampullara.cli.Argument;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.kotlin.cli.common.parser.com.sampullara.cli.Argument;
 import org.jetbrains.kotlin.config.JvmTarget;
 
 public class K2JVMCompilerArguments extends CommonCompilerArguments {
